@@ -24,11 +24,22 @@
 
 body {
   padding: 20px;
+  background-color: BlanchedAlmond;
+  font-family: Avenir;
+}
+
+p {
+  color: navy;
+}
+
+h1, h2, h3, h4, p {
+  color: navy;
 }
 
 .sidebar {
 	grid-row: auto / span 3 !important;
 	float: left;
+  color: navy;
 }
 
 .wrapper {
@@ -36,18 +47,20 @@ body {
   grid-template-columns: 28% 18% 18% 18% 18%;
 	padding-right: 45px;
 	/* margin-bottom: 500px; */
-	grid-template-rows: 95% 95% 95% 95%;
+	grid-template-rows: 85% 85% 85% 85%;
   grid-gap: 10px;
-  background-color: #fff;
+  background-color: #transparent;
   color: #444;
 }
 
 .box {
-  background-color: #444;
+  background-color: transparent;
   color: #fff;
+  border-style: solid;
   border-radius: 5px;
   padding: 20px 20px 0px;
   font-size: 150%;
+  text-align: center;
 	/* height: 95%; */
 
 }
@@ -63,4 +76,16 @@ h4 {
 	margin-bottom: 10px;
 	text-align: center;
 	vertical-align: middle;
+}
+/*
+.button-row img {
+
+} */
+
+.taskBtn {
+  display: inline-block;
+  width: 17%;
+  margin-top: 7%;
+  margin-left: 3%;
+  margin-right: 3%;
 }

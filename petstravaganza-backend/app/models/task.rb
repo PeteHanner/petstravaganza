@@ -16,8 +16,6 @@ class Task < ApplicationRecord
         animal: animal_array.sample
       )
     end
-    # associate task with animal from generated array
-
     task_array
   end
 

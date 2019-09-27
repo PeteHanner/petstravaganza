@@ -4,4 +4,14 @@ class SessionsController < ApplicationController
     # task_list = Task.task_list(session_animals)
     render json:session_animals, only: [:name, :species, :image]
   end
+
+  def update
+    # receive animal hash via params
+    current_animals = JSON.parse(params['currentAnimals'])
+    new_tasks = Task.task_list(current_animals)
+    byebug
+    0
+    # create 15 tasks associated with those animals
+    # return as JSON object
+  end
 end
