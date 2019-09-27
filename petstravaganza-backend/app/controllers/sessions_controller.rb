@@ -1,12 +1,7 @@
 class SessionsController < ApplicationController
-
-
-
   def index
-    team = {
-      peyton: 'pete',
-      pete: 'peyton'
-    }
-    render json:team
+    session_animals = Animal.generate_animal_array
+    task_list = Task.task_list(session_animals)
+    render json:task_list
   end
 end
