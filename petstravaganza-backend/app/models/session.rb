@@ -1,9 +1,5 @@
 class Session < ApplicationRecord
 
-  team = {
-    peyton: 'pete',
-    pete: 'peyton'
-  }
 
   def session_animals
     # randomly generate three animal instances
