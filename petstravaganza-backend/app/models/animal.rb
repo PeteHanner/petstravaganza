@@ -2,9 +2,9 @@ class Animal < ApplicationRecord
   has_many :tasks
 
   @animal_types = {
-    'corgi' => 'petstravaganza-backend/app/resources/img/corgi.jpg',
-    'parrot' => 'petstravaganza-backend/app/resources/img/parrot.jpg',
-    'komodo dragon' => 'petstravaganza-backend/app/resources/img/komodo.jpg'
+    'corgi' => 'assets/corgi.jpg',
+    'parrot' => 'assets/parrot.jpg',
+    'komodo dragon' => 'assets/komodo.jpg'
   }
 
   def self.generate

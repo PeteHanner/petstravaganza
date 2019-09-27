@@ -1,0 +1,66 @@
+/* .grida {
+	width:540px;
+	display: grid;
+	row-gap: 140px;
+	grid-template-columns: repeat(4, 120px);
+	justify-content:space-evenly;
+	align-content: space-evenly;
+	background-color: #fff;
+	color: #444;
+}
+
+.card {
+	background-color: #ddd;
+	color: #555;
+	border-radius: 5px;
+	font-size: 150%;
+	padding: 30px 50px
+}
+
+
+.b, .c, .d, .e, .f, .g, .h, .i, .j {
+	width: 20px;
+} */
+
+body {
+  padding: 20px;
+}
+
+.sidebar {
+	grid-row: auto / span 3 !important;
+	float: left;
+}
+
+.wrapper {
+  display: grid;
+  grid-template-columns: 28% 18% 18% 18% 18%;
+	padding-right: 45px;
+	/* margin-bottom: 500px; */
+	grid-template-rows: 95% 95% 95% 95%;
+  grid-gap: 10px;
+  background-color: #fff;
+  color: #444;
+}
+
+.box {
+  background-color: #444;
+  color: #fff;
+  border-radius: 5px;
+  padding: 20px 20px 0px;
+  font-size: 150%;
+	/* height: 95%; */
+
+}
+.animal-image {
+	width: 100%;
+	display: block;
+	vertical-align: middle;
+}
+
+h4 {
+	line-height: 1px;
+	margin-top: 20px;
+	margin-bottom: 10px;
+	text-align: center;
+	vertical-align: middle;
+}
