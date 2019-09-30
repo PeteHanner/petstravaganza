@@ -3,25 +3,46 @@ const SESSION_ANIMALS = 'http://localhost:3000/sessions'
 const SESSION_TASKS = 'http://localhost:3000/sessions/update'
 let task_queue = []
 
+// Run as soon as the page loads
 document.addEventListener('DOMContentLoaded', function(e) {
-  // console.log('Up and running!')
-  // fetch('http://localhost:3000/sessions')
-  // .then(resp => resp.json())
-  // .then(data => console.log(data))
   fetchAnimals()
+  startClock()
 });
 
+// Keep a running timer at the top of the sidebar
+function startClock() {
+  const clock = document.getElementById('clock')
+  let time = new Date('January 1, 1980 08:00:00')
+  clock.innerText = time.toLocaleTimeString([], {
+    hour: '2-digit',
+    minute:'2-digit'
+  })
+
+  // Increment clock so 1 game hour = 30 real seconds
+  let incrementClock = () => {
+    let newTime = new Date(time.getTime() + 15*60000)
+    time = newTime
+    clock.innerText = time.toLocaleTimeString([], {
+      hour: '2-digit',
+      minute:'2-digit'
+    });
+  }
+  const clockTimer = window.setInterval(incrementClock, 7500)
+}
+
+// Pull random animals from server
 let fetchAnimals = function() {
   fetch(SESSION_ANIMALS)
   .then(resp => resp.json())
   .then(data => {
+    // Store animals locally & get first round of tasks
     localStorage.setItem("sessionAnimals", JSON.stringify(data))
     renderAnimalGrid(data)
     pullTasks()
   })
 }
 
-//Render Items
+// Populate page with animals and task buttons
 let renderAnimalGrid = function(dataObj){
   i = 1
   dataObj.forEach(animal => {
@@ -61,7 +82,7 @@ let renderAnimalGrid = function(dataObj){
   })
 }
 
-
+// Pull tasks for animals from server
 let pullTasks = function() {
   // set current animals in play as body object
   let currentAnimals = localStorage['sessionAnimals'] //JSON.parse()
@@ -79,16 +100,17 @@ let pullTasks = function() {
   .then(rsp => rsp.json())
   .then(tasks => {
     tasks.forEach(task => task_queue.push(task))
+    populateTasks()
   })
-  populateTasks()
 }
 
+// Convert tasks to strings and add them to sidebar
 function populateTasks() {
   const taskList = document.getElementById('task-list')
   const activityPhrases = {
     'food': 'eat something',
     'water': 'drink something',
-    'potty': 'go tinkle',
+    'potty': 'go potty',
     'exercise': 'get some exercise'
   }
   // every 5 seconds
@@ -96,34 +118,69 @@ function populateTasks() {
   if (task_queue.length > 0) {
     // if so, check if there are already 10 tasks in the sidebar
     if (taskList.childElementCount < 10) {
+      let taskObject = task_queue.shift()
       let task = document.createElement('div');
       task.className = 'task'
-      let taskObject = task_queue.shift()
       let currentAnimals = JSON.parse(localStorage['sessionAnimals'])
       let currentAnimal = currentAnimals.find(animal => {
         return animal.id === taskObject.animal_id
       })
       task.innerText = `${currentAnimal.name} the ${currentAnimal.species} needs to ${activityPhrases[taskObject.activity]}!`
       task.dataset.animalId = taskObject.animal_id
+      task.dataset.taskId = taskObject.id
       task.dataset.task = taskObject.activity
+      task.dataset.duration = taskObject.duration
       taskList.appendChild(task)
+      startTaskTimer(task)
     }
   }
-  setTimeout(populateTasks, 200)
+  // Add new tasks to sidebar every X seconds
+  setTimeout(populateTasks, 2000)
 }
 
+// Add to or subtract from score based on user action.
 function adjustScore(e) {
   const targetAnimalId = e.target.parentElement.parentElement.dataset.animalId
   const targetTask = e.target.classList[1]
   const activeTasks = Array.from(document.getElementById("task-list").childNodes)
-  const currentScore = document.getElementById("score")
   let animalMatches = activeTasks.filter(task => task.dataset.animalId === targetAnimalId)
   let taskMatches = animalMatches.filter(task => task.dataset.task === targetTask)
   if (taskMatches.length) {
-    currentScore.innerText = Number(currentScore.innerText)+ 1
+    incrementScore()
+    taskMatches.forEach(node => node.remove())
+  } else {
+    decrementScore()
   }
 }
 
+function decrementScore() {
+  const currentScore = document.getElementById("score")
+  currentScore.innerText = Number(currentScore.innerText) - 2
+}
 
+function incrementScore() {
+  const currentScore = document.getElementById("score")
+  currentScore.innerText = Number(currentScore.innerText) + 1
+}
+
+// If user does not complete task in time, delete it and deduct score
+function startTaskTimer(task) {
+  // find timer
+  let timer = task.dataset.duration
+  // start timer
+  let decrementTimer = () => {
+    timer = timer - 1000
+    let taskUnfinished = (!!(document.querySelector(`[data-task-id='${task.dataset.taskId}']`)))
+    if (timer <= 0) {
+      clearInterval(countdown)
+      if (taskUnfinished) {
+        task.remove()
+        decrementScore()
+      }
+    }
+  }
+  let countdown = setInterval(decrementTimer, 1000)
+  // CONSEQUENCES if timer runs out
+}
 
 

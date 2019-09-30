@@ -10,9 +10,9 @@ class Task < ApplicationRecord
     # X times create a task
     15.times do
       animal_instance = animal_array.sample
-      task_array << self.new(
+      task_array << self.create(
         activity: @task_choices.sample,
-        duration: 5000,
+        duration: 10000,
         status: 'queued',
         animal: Animal.find(animal_instance['id'])
       )

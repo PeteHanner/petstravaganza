@@ -21,7 +21,7 @@ class Animal < ApplicationRecord
 
   def self.generate_animal_array
     animal_array = []
-    3.times do
+    4.times do
       animal_array << self.generate
     end
     animal_array
