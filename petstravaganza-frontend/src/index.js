@@ -1,6 +1,7 @@
 //Variables
 const SESSION_ANIMALS = 'http://localhost:3000/sessions'
-const SESSION_TASKS = 'http://localhost:3000/sessions/new'
+const SESSION_TASKS = 'http://localhost:3000/sessions/update'
+let task_queue = []
 
 document.addEventListener('DOMContentLoaded', function(e) {
   // console.log('Up and running!')
@@ -8,7 +9,6 @@ document.addEventListener('DOMContentLoaded', function(e) {
   // .then(resp => resp.json())
   // .then(data => console.log(data))
   fetchAnimals()
-  populateTasks()
 });
 
 let fetchAnimals = function() {
@@ -17,6 +17,7 @@ let fetchAnimals = function() {
   .then(data => {
     localStorage.setItem("sessionAnimals", JSON.stringify(data))
     renderAnimalGrid(data)
+    pullTasks()
   })
 }
 
@@ -56,7 +57,7 @@ let renderAnimalGrid = function(dataObj){
 }
 
 
-let populateTasks = function() {
+let pullTasks = function() {
   // set current animals in play as body object
   let currentAnimals = localStorage['sessionAnimals'] //JSON.parse()
   console.log(currentAnimals)
@@ -74,6 +75,24 @@ let populateTasks = function() {
   .then(rsp => rsp.json())
   .then(tasks => {
     console.log(tasks)
+    tasks.forEach(task => task_queue.push(task))
   })
-  // populate sidebar with tasks
+  populateTasks()
+}
+
+function populateTasks() {
+  const taskList = document.getElementById('task-list')
+  // every 5 seconds
+  // check if there are tasks available in the queue
+  if (task_queue.length > 0) {
+    // if so, check if there are already 10 tasks in the sidebar
+    if (taskList.childElementCount < 10) {
+      let task = document.createElement('div');
+      task.className = 'task'
+      task.innerText = task_queue.shift()
+      taskList.appendChild(task)
+    }
+  }
+  setTimeout(populateTasks, 3000)
+  // if not, pull the first item from the queue and add it to the sidebar
 }
