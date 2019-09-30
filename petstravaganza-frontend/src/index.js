@@ -7,6 +7,8 @@ let task_queue = []
 document.addEventListener('DOMContentLoaded', function(e) {
   fetchAnimals()
   startClock()
+  setTimeout(populateTasks, 1500)
+  setInterval(pullTasks, 15000)
 });
 
 // Keep a running timer at the top of the sidebar
@@ -100,7 +102,6 @@ let pullTasks = function() {
   .then(rsp => rsp.json())
   .then(tasks => {
     tasks.forEach(task => task_queue.push(task))
-    populateTasks()
   })
 }
 
