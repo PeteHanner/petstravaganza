@@ -4,7 +4,8 @@ class Animal < ApplicationRecord
   @animal_types = {
     'corgi' => 'assets/corgi.jpg',
     'parrot' => 'assets/parrot.jpg',
-    'komodo dragon' => 'assets/komodo.jpg'
+    'komodo dragon' => 'assets/komodo.jpg',
+    'dilophosaurus' => 'assets/dilo.png'
   }
 
   def self.generate
