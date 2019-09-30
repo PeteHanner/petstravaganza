@@ -29,9 +29,13 @@ let renderAnimalGrid = function(dataObj){
     let animalName = document.createElement("h4")
     let buttonrow = document.createElement('span');
     let foodBtn = document.createElement('img');
+    foodBtn.addEventListener("click", adjustScore)
     let waterBtn = document.createElement('img');
-    let tinkleBtn = document.createElement('img');
+    waterBtn.addEventListener("click", adjustScore)
+    let pottyBtn = document.createElement('img');
+    pottyBtn.addEventListener("click", adjustScore)
     let exerciseBtn = document.createElement('img');
+    exerciseBtn.addEventListener("click", adjustScore)
     animalImage.src = animal.image
     animalImage.className = "animal-image"
     animalName.innerText = animal.name
@@ -40,15 +44,16 @@ let renderAnimalGrid = function(dataObj){
     foodBtn.className = 'taskBtn food'
     waterBtn.src = 'assets/water.png'
     waterBtn.className = 'taskBtn water'
-    tinkleBtn.src = 'assets/tinkle.png'
-    tinkleBtn.className = 'taskBtn tinkle'
+    pottyBtn.src = 'assets/tinkle.png'
+    pottyBtn.className = 'taskBtn potty'
     exerciseBtn.src = 'assets/exercise.png'
     exerciseBtn.className = 'taskBtn exercise'
     buttonrow.appendChild(foodBtn);
     buttonrow.appendChild(waterBtn);
-    buttonrow.appendChild(tinkleBtn);
+    buttonrow.appendChild(pottyBtn);
     buttonrow.appendChild(exerciseBtn);
     let box = document.getElementById(`${i}`)
+    box.dataset.animalId = animal.id
     box.appendChild(animalImage)
     box.appendChild(animalName)
     box.appendChild(buttonrow)
@@ -60,7 +65,6 @@ let renderAnimalGrid = function(dataObj){
 let pullTasks = function() {
   // set current animals in play as body object
   let currentAnimals = localStorage['sessionAnimals'] //JSON.parse()
-  console.log(currentAnimals)
   // set up config
   let configObj = {
     method: 'PATCH',
@@ -74,7 +78,6 @@ let pullTasks = function() {
   fetch(SESSION_TASKS, configObj)
   .then(rsp => rsp.json())
   .then(tasks => {
-    console.log(tasks)
     tasks.forEach(task => task_queue.push(task))
   })
   populateTasks()
@@ -82,6 +85,12 @@ let pullTasks = function() {
 
 function populateTasks() {
   const taskList = document.getElementById('task-list')
+  const activityPhrases = {
+    'food': 'eat something',
+    'water': 'drink something',
+    'potty': 'go tinkle',
+    'exercise': 'get some exercise'
+  }
   // every 5 seconds
   // check if there are tasks available in the queue
   if (task_queue.length > 0) {
@@ -89,10 +98,32 @@ function populateTasks() {
     if (taskList.childElementCount < 10) {
       let task = document.createElement('div');
       task.className = 'task'
-      task.innerText = task_queue.shift()
+      let taskObject = task_queue.shift()
+      let currentAnimals = JSON.parse(localStorage['sessionAnimals'])
+      let currentAnimal = currentAnimals.find(animal => {
+        return animal.id === taskObject.animal_id
+      })
+      task.innerText = `${currentAnimal.name} the ${currentAnimal.species} needs to ${activityPhrases[taskObject.activity]}!`
+      task.dataset.animalId = taskObject.animal_id
+      task.dataset.task = taskObject.activity
       taskList.appendChild(task)
     }
   }
-  setTimeout(populateTasks, 3000)
-  // if not, pull the first item from the queue and add it to the sidebar
+  setTimeout(populateTasks, 200)
 }
+
+function adjustScore(e) {
+  const targetAnimalId = e.target.parentElement.parentElement.dataset.animalId
+  const targetTask = e.target.classList[1]
+  const activeTasks = Array.from(document.getElementById("task-list").childNodes)
+  const currentScore = document.getElementById("score")
+  let animalMatches = activeTasks.filter(task => task.dataset.animalId === targetAnimalId)
+  let taskMatches = animalMatches.filter(task => task.dataset.task === targetTask)
+  if (taskMatches.length) {
+    currentScore.innerText = Number(currentScore.innerText)+ 1
+  }
+}
+
+
+
+
