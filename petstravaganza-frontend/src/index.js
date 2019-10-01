@@ -233,22 +233,22 @@ function adjustScore(e) {
   let animalMatches = activeTasks.filter(task => task.dataset.animalId === targetAnimalId)
   let taskMatches = animalMatches.filter(task => task.dataset.task === targetTask)
   if (taskMatches.length) {
-    flashScoreGreen()
     incrementScore()
     taskMatches.forEach(node => node.remove())
   } else {
-    flashScoreRed()
     decrementScore()
   }
 }
 
 function decrementScore() {
   const currentScore = document.getElementById("score")
+  flashScoreRed()
   currentScore.innerText = Number(currentScore.innerText) - 2
 }
 
 function incrementScore() {
   const currentScore = document.getElementById("score")
+  flashScoreGreen()
   currentScore.innerText = Number(currentScore.innerText) + 1
 }
 
@@ -278,11 +278,23 @@ function setFinalScore() {
 }
 
 function flashScoreGreen() {
-  const score = 0
+  const score = document.getElementById('score')
+  score.style.textShadow = '0px 0px 10px green';
+  score.style.color = 'green';
+  setTimeout( ()=> {
+    score.style.textShadow = '';
+    score.style.color = '#4A5AA8'
+  }, 500)
 }
 
 function flashScoreRed() {
-  const score = 0
+  const score = document.getElementById('score')
+  score.style.textShadow = '0px 0px 10px red';
+  score.style.color = 'red';
+  setTimeout( ()=> {
+    score.style.textShadow = '';
+    score.style.color = '#4A5AA8'
+  }, 500)
 }
 
 
