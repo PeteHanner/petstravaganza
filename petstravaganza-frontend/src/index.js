@@ -149,13 +149,13 @@ let renderAnimalGrid = function(dataObj){
     animalName.innerText = animal.name
     buttonrow.className = "button-row"
     foodBtn.src = 'assets/food.png'
-    foodBtn.className = 'taskbtn'
+    foodBtn.className = 'taskbtn food'
     waterBtn.src = 'assets/water.png'
-    waterBtn.className = 'taskbtn'
+    waterBtn.className = 'taskbtn water'
     pottyBtn.src = 'assets/tinkle.png'
-    pottyBtn.className = 'taskbtn'
+    pottyBtn.className = 'taskbtn potty'
     exerciseBtn.src = 'assets/exercise.png'
-    exerciseBtn.className = 'taskbtn'
+    exerciseBtn.className = 'taskbtn exercise'
     buttonrow.appendChild(foodBtn);
     buttonrow.appendChild(waterBtn);
     buttonrow.appendChild(pottyBtn);
