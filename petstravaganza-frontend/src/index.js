@@ -29,29 +29,47 @@ GAME_SCREEN.innerHTML = `
 `
 let task_queue = []
 
+const GAME_OVER_SCREEN = document.createElement('div');
+GAME_OVER_SCREEN.id = 'game-over-screen'
+GAME_OVER_SCREEN.innerHTML = `
+<div>
+  <h1>GAME OVER</h1>
+  <h3>Your final score was <span id='final-score'></span></h3>
+</div>
+`
+
 // Run as soon as the page loads
+
+function clearDOM() {
+  let child = document.body.lastElementChild;
+  while (child) {
+    document.body.removeChild(child)
+    child = document.body.lastElementChild
+  }
+}
 
 document.addEventListener('DOMContentLoaded', function(e) {
   document.body.appendChild(HOME_SCREEN)
   const startButton = document.getElementById('start-game')
   startButton.addEventListener('click', function(e) {
-    let child = document.body.lastElementChild;
-    while (child) {
-      document.body.removeChild(child)
-      child = document.body.lastElementChild
-    }
+    clearDOM()
     document.body.appendChild(GAME_SCREEN)
     fetchAnimals();
     startClock();
     populateTasks();
     let taskPull = setInterval(pullTasks, 15000)
     let taskPush = setInterval(populateTasks, 2000)
-    // ( () => {
-    //   // setTimeout(populateTasks, 1500)
-    // })
     setTimeout( ()=> {
+      const gameOver = new CustomEvent('gameOver')
+      document.dispatchEvent(gameOver)
+      console.log('GAME OVER!!!!')
       clearInterval(taskPull)
       clearInterval(taskPush)
+      setFinalScore()
+      clearDOM()
+      document.body.appendChild(GAME_OVER_SCREEN)
+      const finalScoreSpan = document.getElementById('final-score')
+      finalScoreSpan.innerText = localStorage['finalScore']
     }, 60000)
   });
 });
@@ -237,6 +255,11 @@ function startTaskTimer(task) {
     }
   }
   let countdown = setInterval(decrementTimer, 1000)
+  document.addEventListener('gameOver', () => clearInterval(countdown), false)
 }
 
+function setFinalScore() {
+  const finalScoreVal = document.getElementById('score').innerText
+  localStorage.setItem("finalScore", finalScoreVal)
+}
 
