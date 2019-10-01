@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(version: 2019_09_27_152639) do
     t.string "activity"
     t.integer "duration"
     t.string "status"
+    t.string "image"
     t.bigint "animal_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

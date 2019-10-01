@@ -11,8 +11,15 @@ document.addEventListener('DOMContentLoaded', function(e) {
   setInterval(pullTasks, 15000)
 });
 
+// Add header
+function createHeader() {
+  const header = document.getElementById('header')
+  header.innerHTML = `<img src="assets/coming-soon.png" width=50%>`
+}
+
 // Keep a running timer at the top of the sidebar
 function startClock() {
+  createHeader()
   const clock = document.getElementById('clock')
   let time = new Date('January 1, 1980 08:00:00')
   clock.innerText = time.toLocaleTimeString([], {
@@ -127,8 +134,7 @@ function populateTasks() {
       let currentAnimal = currentAnimals.find(animal => {
         return animal.id === taskObject.animal_id
       })
-      debugger
-      task.innerHTML = ` ${currentAnimal.name} the ${currentAnimal.species} needs to <strong>${activityPhrases[taskObject.activity]}</strong>!`
+      task.innerHTML = `<img src="${taskObject.image}" width="5%" align="center">   <strong>${currentAnimal.name}</strong> the ${currentAnimal.species} needs to <strong>${activityPhrases[taskObject.activity]}</strong>!`
       task.dataset.animalId = taskObject.animal_id
       task.dataset.taskId = taskObject.id
       task.dataset.task = taskObject.activity

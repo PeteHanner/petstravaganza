@@ -40,13 +40,13 @@ h1, h2, h3, h4, p {
 	grid-row: auto / span 3 !important;
 	float: left;
   color: navy;
-  height: 64.5%;
+  height: 64%;
 }
 
 .wrapper {
   display: grid;
   align: center;
-  grid-template-columns: 28% 18% 18% 18%;
+  grid-template-columns: 47% 18% 18% 18%;
 	padding-right: 45px;
 	/* margin-bottom: 500px; */
 	grid-template-rows: 50% 50% 50% 50%;
@@ -83,6 +83,13 @@ h4 {
 .button-row img {
 
 } */
+.body {
+  align: center;
+  position: relative;
+  text-align: center;
+  vertical-align: middle !important;
+}
+
 
 .taskBtn {
   display: inline-block;
@@ -95,5 +102,5 @@ h4 {
 .task {
   color: navy;
   padding-bottom: 3%;
-  font-size: 25px;
+  font-size: 24px;
 }
