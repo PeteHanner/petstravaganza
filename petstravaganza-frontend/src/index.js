@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function(e) {
     fetchAnimals();
     startClock();
     populateTasks();
-    let taskPull = setInterval(pullTasks, 15000)
+    let taskPull = setInterval(pullTasks, 10000)
     let taskPush = setInterval(populateTasks, 2000)
     setTimeout( ()=> {
       const gameOver = new CustomEvent('gameOver')
