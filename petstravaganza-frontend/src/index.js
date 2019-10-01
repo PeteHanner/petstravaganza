@@ -1,22 +1,59 @@
-//Variables
+// Variables
 const SESSION_ANIMALS = 'http://localhost:3000/sessions'
 const SESSION_TASKS = 'http://localhost:3000/sessions/update'
+
+const HOME_SCREEN = document.createElement('div');
+HOME_SCREEN.id = 'home-screen'
+HOME_SCREEN.innerHTML = `
+  <h2>WELCOME HI PETS</h2>
+  <button type="button" id='start-game'>GO PETS GO</button>
+`
+
+const GAME_SCREEN = document.createElement('div');
+GAME_SCREEN.id = 'animal-grid'
+GAME_SCREEN.innerHTML = `
+<div class="wrapper">
+  <div id="sidebar" class="box sidebar">
+    <div id="header"></div>
+    <div><h1 id="clock"></h1></div>
+    <div><h2>Score: <span id="score">0</span></h2></div>
+    <div id="task-list"></div>
+  </div>
+  <div class="box" id="1"></div>
+  <div class="box" id="2"></div>
+  <div class="box" id="3"></div>
+  <div class="box" id="4"></div>
+  <div class="box" id="5"></div>
+  <div class="box" id="6"></div>
+</div>
+`
 let task_queue = []
 
 // Run as soon as the page loads
+
 document.addEventListener('DOMContentLoaded', function(e) {
-  fetchAnimals()
-  startClock()
-  populateTasks()
-  let taskPull = setInterval(pullTasks, 15000)
-  let taskPush = setInterval(populateTasks, 2000)
-  // ( () => {
-  //   // setTimeout(populateTasks, 1500)
-  // })
-  setTimeout( ()=> {
-    clearInterval(taskPull)
-    clearInterval(taskPush)
-  }, 60000)
+  document.body.appendChild(HOME_SCREEN)
+  const startButton = document.getElementById('start-game')
+  startButton.addEventListener('click', function(e) {
+    let child = document.body.lastElementChild;
+    while (child) {
+      document.body.removeChild(child)
+      child = document.body.lastElementChild
+    }
+    document.body.appendChild(GAME_SCREEN)
+    fetchAnimals();
+    startClock();
+    populateTasks();
+    let taskPull = setInterval(pullTasks, 15000)
+    let taskPush = setInterval(populateTasks, 2000)
+    // ( () => {
+    //   // setTimeout(populateTasks, 1500)
+    // })
+    setTimeout( ()=> {
+      clearInterval(taskPull)
+      clearInterval(taskPush)
+    }, 60000)
+  });
 });
 
 // Add header
@@ -200,7 +237,6 @@ function startTaskTimer(task) {
     }
   }
   let countdown = setInterval(decrementTimer, 1000)
-  // CONSEQUENCES if timer runs out
 }
 
 
