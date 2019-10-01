@@ -7,8 +7,16 @@ let task_queue = []
 document.addEventListener('DOMContentLoaded', function(e) {
   fetchAnimals()
   startClock()
-  setTimeout(populateTasks, 1500)
-  setInterval(pullTasks, 15000)
+  populateTasks()
+  let taskPull = setInterval(pullTasks, 15000)
+  let taskPush = setInterval(populateTasks, 2000)
+  // ( () => {
+  //   // setTimeout(populateTasks, 1500)
+  // })
+  setTimeout( ()=> {
+    clearInterval(taskPull)
+    clearInterval(taskPush)
+  }, 60000)
 });
 
 // Add header
@@ -37,6 +45,9 @@ function startClock() {
     });
   }
   const clockTimer = window.setInterval(incrementClock, 1500)
+  setTimeout( ()=> {
+    clearInterval(clockTimer)
+  }, 60000)
 }
 
 // Pull random animals from server
@@ -144,7 +155,7 @@ function populateTasks() {
     }
   }
   // Add new tasks to sidebar every X seconds
-  setTimeout(populateTasks, 2000)
+  // setTimeout(populateTasks, 2000)
 }
 
 // Add to or subtract from score based on user action.
