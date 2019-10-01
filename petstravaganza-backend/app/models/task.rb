@@ -44,7 +44,7 @@ class Task < ApplicationRecord
   def self.make_task(animal_array)
     animal_instance = animal_array.sample
     self.new(
-      activity: @task_choices.sample,
+      activity: @task_choices.keys.sample,
       animal: Animal.find(animal_instance['id'])
     )
   end
