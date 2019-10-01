@@ -5,8 +5,20 @@ const SESSION_TASKS = 'http://localhost:3000/sessions/update'
 const HOME_SCREEN = document.createElement('div');
 HOME_SCREEN.id = 'home-screen'
 HOME_SCREEN.innerHTML = `
-  <h2>WELCOME HI PETS</h2>
-  <button type="button" id='start-game'>GO PETS GO</button>
+  <div class="wrapperz">
+    <header class="header"><h7>WELCOME TO PETE & PEYTON'S<br>PETSTRAVAGANZA</h7></header>
+    <article class="main">
+      <h6>HOW TO PLAY</h6><br>
+    </article>
+    <aside class="aside aside-1">Aside 1</aside>
+    <aside class="aside aside-2">Aside 2</aside>
+    <footer class="footer">
+      <a href="#nada" class='butngreen' id='start-game'><span>EASY</span></a>
+      <a href="#nada" class='butnyellow' id='start-game'><span>MEDIUM</span></a>
+      <a href="#nada" class='butnred' id='start-game'><span>HARD</span></a>
+    </footer>
+  </div>
+  <br><br>
 `
 
 const GAME_SCREEN = document.createElement('div');
@@ -137,13 +149,13 @@ let renderAnimalGrid = function(dataObj){
     animalName.innerText = animal.name
     buttonrow.className = "button-row"
     foodBtn.src = 'assets/food.png'
-    foodBtn.className = 'taskBtn food'
+    foodBtn.className = 'taskbtn'
     waterBtn.src = 'assets/water.png'
-    waterBtn.className = 'taskBtn water'
+    waterBtn.className = 'taskbtn'
     pottyBtn.src = 'assets/tinkle.png'
-    pottyBtn.className = 'taskBtn potty'
+    pottyBtn.className = 'taskbtn'
     exerciseBtn.src = 'assets/exercise.png'
-    exerciseBtn.className = 'taskBtn exercise'
+    exerciseBtn.className = 'taskbtn'
     buttonrow.appendChild(foodBtn);
     buttonrow.appendChild(waterBtn);
     buttonrow.appendChild(pottyBtn);
