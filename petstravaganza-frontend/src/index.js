@@ -233,9 +233,11 @@ function adjustScore(e) {
   let animalMatches = activeTasks.filter(task => task.dataset.animalId === targetAnimalId)
   let taskMatches = animalMatches.filter(task => task.dataset.task === targetTask)
   if (taskMatches.length) {
+    flashScoreGreen()
     incrementScore()
     taskMatches.forEach(node => node.remove())
   } else {
+    flashScoreRed()
     decrementScore()
   }
 }
@@ -274,4 +276,17 @@ function setFinalScore() {
   const finalScoreVal = document.getElementById('score').innerText
   localStorage.setItem("finalScore", finalScoreVal)
 }
+
+function flashScoreGreen() {
+  const score = 0
+}
+
+function flashScoreRed() {
+  const score = 0
+}
+
+
+
+
+
 
