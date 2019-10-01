@@ -36,7 +36,7 @@ function startClock() {
       minute:'2-digit'
     });
   }
-  const clockTimer = window.setInterval(incrementClock, 7500)
+  const clockTimer = window.setInterval(incrementClock, 1500)
 }
 
 // Pull random animals from server
