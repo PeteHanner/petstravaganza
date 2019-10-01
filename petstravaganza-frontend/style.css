@@ -40,14 +40,16 @@ h1, h2, h3, h4, p {
 	grid-row: auto / span 3 !important;
 	float: left;
   color: navy;
+  height: 64.5%;
 }
 
 .wrapper {
   display: grid;
-  grid-template-columns: 28% 18% 18% 18% 18%;
+  align: center;
+  grid-template-columns: 28% 18% 18% 18%;
 	padding-right: 45px;
 	/* margin-bottom: 500px; */
-	grid-template-rows: 85% 85% 85% 85%;
+	grid-template-rows: 50% 50% 50% 50%;
   grid-gap: 10px;
   background-color: #transparent;
   color: #444;
@@ -93,4 +95,5 @@ h4 {
 .task {
   color: navy;
   padding-bottom: 3%;
+  font-size: 25px;
 }

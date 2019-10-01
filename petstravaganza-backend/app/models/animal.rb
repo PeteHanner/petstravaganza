@@ -5,7 +5,15 @@ class Animal < ApplicationRecord
     'corgi' => 'assets/corgi.jpg',
     'parrot' => 'assets/parrot.jpg',
     'komodo dragon' => 'assets/komodo.jpg',
-    'dilophosaurus' => 'assets/dilo.png'
+    'dilophosaurus' => 'assets/dilo2.jpg',
+    'beluga whale' => 'assets/beluga.jpg',
+    'chow chow' => 'assets/chowchow.jpg',
+    'doodle' => 'assets/doodle.jpg',
+    'jellyfish' => 'assets/jellyfish.jpg',
+    'persian' => 'assets/persian.jpg',
+    'chameleon' => 'assets/chameleon.jpg',
+    'cheetah' => 'assets/cheetah.jpg',
+    'horse' => 'assets/horse.jpg'
   }
 
   def self.generate
@@ -21,7 +29,7 @@ class Animal < ApplicationRecord
 
   def self.generate_animal_array
     animal_array = []
-    4.times do
+    6.times do
       animal_array << self.generate
     end
     animal_array

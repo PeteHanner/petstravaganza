@@ -119,6 +119,7 @@ function populateTasks() {
   if (task_queue.length > 0) {
     // if so, check if there are already 10 tasks in the sidebar
     if (taskList.childElementCount < 10) {
+
       let taskObject = task_queue.shift()
       let task = document.createElement('div');
       task.className = 'task'
@@ -126,7 +127,8 @@ function populateTasks() {
       let currentAnimal = currentAnimals.find(animal => {
         return animal.id === taskObject.animal_id
       })
-      task.innerText = `${currentAnimal.name} the ${currentAnimal.species} needs to ${activityPhrases[taskObject.activity]}!`
+      debugger
+      task.innerHTML = ` ${currentAnimal.name} the ${currentAnimal.species} needs to <strong>${activityPhrases[taskObject.activity]}</strong>!`
       task.dataset.animalId = taskObject.animal_id
       task.dataset.taskId = taskObject.id
       task.dataset.task = taskObject.activity
