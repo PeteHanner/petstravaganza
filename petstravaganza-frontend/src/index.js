@@ -29,13 +29,15 @@ HOME_SCREEN.innerHTML = `
 </div>
 `
 
+
+
 const GAME_SCREEN = document.createElement('div');
 GAME_SCREEN.id = 'animal-grid'
 GAME_SCREEN.innerHTML = `
 <div class="wrapper">
 <div id="sidebar" class="box sidebar">
 <div id="header"></div>
-<div><h6>PETE & PEYTON'S PETSTRAVAGANZA</h6><h1 id="clock"></h1></div>
+<div><h6>PETE & PEYTON'S PETSTRAVAGANZA</h6><h1 id="clock"></h1><a class='restart' id='restart'><strong>RESTART GAME</strong></a></div>
 <div><h2>Score: <span id="score">0</span></h2></div>
 <div id="task-list"></div>
 </div>
@@ -52,10 +54,20 @@ let task_queue = []
 const GAME_OVER_SCREEN = document.createElement('div');
 GAME_OVER_SCREEN.id = 'game-over-screen'
 GAME_OVER_SCREEN.innerHTML = `
-<div>
-<h1>GAME OVER</h1>
-<h3>Your final score was <span id='final-score'></span></h3>
+<div></div>
+
+<div class="wrapperz">
+<header class="header"><h7>GAME OVER</h7></header>
+<article class="main" id="start-button-row">
+<br><h6>YOUR FINAL SCORE WAS <span id='final-score'></span></h6>
+
 <div id='leaderboard-entry-form'></div>
+</article>
+<aside class="aside aside-1"><br><br><br><br><img src="assets/beluga.jpg" class="animal-image"><p>"I am so happy, what a great day! Thanks!"<br>–- Peyton the Beluga</p></aside>
+<aside class="aside aside-2"><br><br><br><br><img src="assets/corgi.jpg" class="animal-image"><p>"SARCASTIC PETE QUOTE"<br>–- Pete the Corgi</p></aside>
+<footer class="footer">
+<p>Pete & Peyton's PETSTRAVAGANZA<br>by <a href="https://github.com/petehanner">Pete Hanner</a> & <a href="https://github.com/p6doyle">Peyton Doyle</a>
+</footer>
 </div>
 `
 
@@ -124,16 +136,16 @@ document.addEventListener('DOMContentLoaded', function(e) {
   });
 });
 
-document.addEventListener('DOMContentLoaded', function(e) {
-
-
-});
-
-
 function startGame() {
   document.body.appendChild(GAME_SCREEN)
-  const taskList = document.getElementById('task-list')
 
+  const restartButton = document.getElementById('restart')
+  restartButton.addEventListener('click', () => {
+    console.log("yolo")
+    location.reload();
+  })
+
+  const taskList = document.getElementById('task-list')
   taskList.addEventListener('pauseCountdown', () => {
     let holdUp = new CustomEvent('holdUp')
     taskList.childNodes.forEach(childTask => {
@@ -404,10 +416,10 @@ function createHighScoreEntry() {
   const lbEntryForm = document.createElement('form');
   lbEntryForm.id = 'create-leaderboard-entry'
   lbEntryForm.innerHTML = `
-  <h5>Congrats, you got a high score!</h5>
-  <label for="username">Please enter a name for the leaderboard: </label>
-  <input type="text" name="username" value="">
-  <input type="submit" value="YOU DID IT GOOD JOB">
+  <h6>CONGRATS, YOU GOT A HIGH SCORE!</h6><br>
+  <label for="username"><h3>Please enter a name for the leaderboard: </h3></label>
+  <input type="text" name="username" value=""><br><br>
+  <input type="submit" value="YOU DID IT GOOD JOB" class='leaderboard' id='leaderboard'>
   `
   lbEntryFormDiv.appendChild(lbEntryForm)
   lbEntryForm.addEventListener('submit', function(e) {
@@ -431,8 +443,8 @@ function patchLeaderboard(userName) {
   fetch(LEADERBOARD_UPDATE, configObj)
   .then(rsp => rsp.json())
   .then(topScores => {
-    clearDOM()
-    showLeaderboard(topScores, document.body)
+    pullLeaderboard()
+    // showLeaderboard(topScores, document.body)
   })
 }
 
