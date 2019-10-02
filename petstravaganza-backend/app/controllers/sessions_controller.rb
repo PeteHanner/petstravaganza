@@ -7,7 +7,6 @@ class SessionsController < ApplicationController
   def update
     # receive animal hash via params
     current_animals = JSON.parse(params['currentAnimals'])
-    puts current_animals
     new_tasks = Task.task_list(current_animals)
     print new_tasks
     render json:new_tasks
@@ -30,7 +29,8 @@ class SessionsController < ApplicationController
     # create a new entry with provided params
     Session.create(
       username: params[:username],
-      score: params[:score]
+      score: params[:score],
+      difficulty: params[:difficulty]
     )
     top_ten = Session.all
     top_ten = top_ten.sort_by { |session| session[:score] }

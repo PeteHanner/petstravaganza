@@ -33,7 +33,6 @@ class Task < ApplicationRecord
       json_return << Task.create(
         activity: task.activity,
         animal: task.animal,
-        duration: 10000,
         image: @task_choices[task.activity]
       )
     end

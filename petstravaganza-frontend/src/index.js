@@ -57,16 +57,16 @@ const LEADERBOARD_SCREEN = document.createElement('div');
 LEADERBOARD_SCREEN.id = 'leaderboard-screen'
 LEADERBOARD_SCREEN.innerHTML = `
   <h2>HIGH SCORES:</h2>
-  <p class='hi-score'><strong>1st: </strong><span id='hiscore1'></span></p>
-  <p class='hi-score'><strong>2nd: </strong><span id='hiscore2'></span></p>
-  <p class='hi-score'><strong>3rd: </strong><span id='hiscore3'></span></p>
-  <p class='hi-score'><strong>4th: </strong><span id='hiscore4'></span></p>
-  <p class='hi-score'><strong>5th: </strong><span id='hiscore5'></span></p>
-  <p class='hi-score'><strong>6th: </strong><span id='hiscore6'></span></p>
-  <p class='hi-score'><strong>7th: </strong><span id='hiscore7'></span></p>
-  <p class='hi-score'><strong>8th: </strong><span id='hiscore8'></span></p>
-  <p class='hi-score'><strong>9th: </strong><span id='hiscore9'></span></p>
-  <p class='hi-score'><strong>10th: </strong><span id='hiscore10'></span></p>
+  <p class='hi-score'><strong>1st | </strong><span id='hiscore1'></span></p>
+  <p class='hi-score'><strong>2nd | </strong><span id='hiscore2'></span></p>
+  <p class='hi-score'><strong>3rd | </strong><span id='hiscore3'></span></p>
+  <p class='hi-score'><strong>4th | </strong><span id='hiscore4'></span></p>
+  <p class='hi-score'><strong>5th | </strong><span id='hiscore5'></span></p>
+  <p class='hi-score'><strong>6th | </strong><span id='hiscore6'></span></p>
+  <p class='hi-score'><strong>7th | </strong><span id='hiscore7'></span></p>
+  <p class='hi-score'><strong>8th | </strong><span id='hiscore8'></span></p>
+  <p class='hi-score'><strong>9th | </strong><span id='hiscore9'></span></p>
+  <p class='hi-score'><strong>10th | </strong><span id='hiscore10'></span></p>
 `
 
 // Run as soon as the page loads
@@ -87,17 +87,18 @@ document.addEventListener('DOMContentLoaded', function(e) {
   const startButtons = document.getElementById('start-button-row')
   startButtons.addEventListener('click', function(e) {
     let difficulty = e.target.id;
-    // let taskAppearanceRate;
-    // let taskExpiration;
     if (difficulty === 'butngreen') {
       taskAppearanceRate = 2500
       taskExpiration = 12000
+      localStorage.setItem("difficulty", 'easy')
     } else if (difficulty === 'butnyellow') {
       taskAppearanceRate = 2000
       taskExpiration = 10000
+      localStorage.setItem("difficulty", 'medium')
     } else if (difficulty === 'butnred'){
       taskAppearanceRate = 2000
       taskExpiration = 9000
+      localStorage.setItem("difficulty", 'hard')
     }
     clearDOM()
     startGame()
@@ -344,9 +345,13 @@ function checkForHighScore() {
   .then(rsp => rsp.json())
   .then(leaderboard => {
     let userScore = Number(localStorage['finalScore']);
-    let highScoreThreshold = Number(leaderboard[0].score)
-    if (leaderboard.length < 10 || userScore > highScoreThreshold) {
+    if (leaderboard[0] === undefined) {
       createHighScoreEntry()
+    } else {
+      let highScoreThreshold = Number(leaderboard[0].score)
+      if (leaderboard.length < 10 || userScore > highScoreThreshold) {
+        createHighScoreEntry()
+      }
     }
   })
 }
@@ -371,7 +376,7 @@ function createHighScoreEntry() {
 
 function patchLeaderboard(userName) {
   let userScore = Number(localStorage['finalScore']);
-  let bodyData = {username: userName, score: userScore}
+  let bodyData = {username: userName, score: userScore, difficulty: localStorage['difficulty']}
   let configObj = {
     method: 'POST',
     headers: {
@@ -391,15 +396,11 @@ function patchLeaderboard(userName) {
 function showLeaderboard(topScores) {
   document.body.appendChild(LEADERBOARD_SCREEN)
   let maxIndex = topScores.length - 1
-
   for (let i = 0; i < topScores.length; i++) {
     let scoreEntry = document.getElementById(`hiscore${i+1}`)
-    scoreEntry.innerText = `${topScores[maxIndex].username}: ${topScores[maxIndex].score}`
+    scoreEntry.innerText = `${topScores[maxIndex].username} : ${topScores[maxIndex].score} (${topScores[maxIndex].difficulty})`
     maxIndex--
   }
-
-  // const hiscore1 = document.getElementById('hiscore1')
-  // hiscore1.innerText = `${topTen}`
 }
 
 
