@@ -435,7 +435,7 @@ function createHighScoreEntry() {
   lbEntryFormDiv.appendChild(lbEntryForm)
   lbEntryForm.addEventListener('submit', function(e) {
     e.preventDefault()
-    let userName = e.target.childNodes[5].value
+    let userName = e.target.childNodes[6].value
     patchLeaderboard(userName)
     let submitButton = document.getElementById('leaderboard')
     submitButton.remove()
