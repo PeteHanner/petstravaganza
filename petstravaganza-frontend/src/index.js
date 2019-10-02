@@ -425,6 +425,8 @@ function createHighScoreEntry() {
     e.preventDefault()
     let userName = e.target.childNodes[5].value
     patchLeaderboard(userName)
+    let submitButton = document.getElementById('leaderboard')
+    submitButton.remove()
   });
 }
 
