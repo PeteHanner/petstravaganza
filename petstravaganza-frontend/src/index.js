@@ -62,17 +62,17 @@ GAME_OVER_SCREEN.innerHTML = `
 const LEADERBOARD_SCREEN = document.createElement('div');
 LEADERBOARD_SCREEN.id = 'leaderboard-screen'
 LEADERBOARD_SCREEN.innerHTML = `
-  <h2>HIGH SCORES:</h2>
-  <p class='hi-score'><strong>1st | </strong><span id='hiscore1'></span></p>
-  <p class='hi-score'><strong>2nd | </strong><span id='hiscore2'></span></p>
-  <p class='hi-score'><strong>3rd | </strong><span id='hiscore3'></span></p>
-  <p class='hi-score'><strong>4th | </strong><span id='hiscore4'></span></p>
-  <p class='hi-score'><strong>5th | </strong><span id='hiscore5'></span></p>
-  <p class='hi-score'><strong>6th | </strong><span id='hiscore6'></span></p>
-  <p class='hi-score'><strong>7th | </strong><span id='hiscore7'></span></p>
-  <p class='hi-score'><strong>8th | </strong><span id='hiscore8'></span></p>
-  <p class='hi-score'><strong>9th | </strong><span id='hiscore9'></span></p>
-  <p class='hi-score'><strong>10th | </strong><span id='hiscore10'></span></p>
+<h2>HIGH SCORES:</h2>
+<p class='hi-score'><strong>1st | </strong><span id='hiscore1'></span></p>
+<p class='hi-score'><strong>2nd | </strong><span id='hiscore2'></span></p>
+<p class='hi-score'><strong>3rd | </strong><span id='hiscore3'></span></p>
+<p class='hi-score'><strong>4th | </strong><span id='hiscore4'></span></p>
+<p class='hi-score'><strong>5th | </strong><span id='hiscore5'></span></p>
+<p class='hi-score'><strong>6th | </strong><span id='hiscore6'></span></p>
+<p class='hi-score'><strong>7th | </strong><span id='hiscore7'></span></p>
+<p class='hi-score'><strong>8th | </strong><span id='hiscore8'></span></p>
+<p class='hi-score'><strong>9th | </strong><span id='hiscore9'></span></p>
+<p class='hi-score'><strong>10th | </strong><span id='hiscore10'></span></p>
 `
 
 // Run as soon as the page loads
@@ -132,6 +132,15 @@ document.addEventListener('DOMContentLoaded', function(e) {
 
 function startGame() {
   document.body.appendChild(GAME_SCREEN)
+  const taskList = document.getElementById('task-list')
+
+  taskList.addEventListener('pauseCountdown', () => {
+    let holdUp = new CustomEvent('holdUp')
+    taskList.childNodes.forEach(childTask => {
+      childTask.dispatchEvent(holdUp)
+    })
+    // setTimeout(countdown, 2000)
+  }, false);
   fetchAnimals();
   startClock();
   populateTasks();
@@ -255,7 +264,6 @@ function populateTasks() {
     'potty': 'go potty',
     'exercise': 'get some exercise'
   }
-  // every 5 seconds
   // check if there are tasks available in the queue
   if (task_queue.length > 0) {
     // if so, check if there are already 10 tasks in the sidebar
@@ -276,8 +284,6 @@ function populateTasks() {
       startTaskTimer(task)
     }
   }
-  // Add new tasks to sidebar every X seconds
-  // setTimeout(populateTasks, 2000)
 }
 
 // Add to or subtract from score based on user action.
@@ -311,19 +317,31 @@ function incrementScore() {
 function startTaskTimer(task) {
   // find timer
   let timer = taskExpiration
+  let taskNode = document.querySelector(`[data-task-id='${task.dataset.taskId}']`)
+  const taskList = document.getElementById('task-list')
+  const pauseCountdown = new CustomEvent('pauseCountdown')
   // start timer
   let decrementTimer = () => {
     timer = timer - 1000
-    let taskUnfinished = (!!(document.querySelector(`[data-task-id='${task.dataset.taskId}']`)))
+    let taskUnfinished = (!!taskNode)
     if (timer <= 0) {
       clearInterval(countdown)
       if (taskUnfinished) {
         task.remove()
+        console.log('timer down')
         decrementScore()
+        taskList.dispatchEvent(pauseCountdown)
       }
     }
   }
+
   let countdown = setInterval(decrementTimer, 1000)
+
+  taskNode.addEventListener('holdUp', (e) => {
+    timer = timer + 10000
+  });
+  // countdown()
+
   document.addEventListener('gameOver', () => clearInterval(countdown), false)
 }
 
