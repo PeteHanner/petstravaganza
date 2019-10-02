@@ -317,13 +317,12 @@ function incrementScore() {
 function startTaskTimer(task) {
   // find timer
   let timer = taskExpiration
-  let taskNode = document.querySelector(`[data-task-id='${task.dataset.taskId}']`)
   const taskList = document.getElementById('task-list')
   const pauseCountdown = new CustomEvent('pauseCountdown')
   // start timer
   let decrementTimer = () => {
     timer = timer - 1000
-    let taskUnfinished = (!!taskNode)
+    let taskUnfinished = (!!(document.querySelector(`[data-task-id='${task.dataset.taskId}']`)))
     if (timer <= 0) {
       clearInterval(countdown)
       if (taskUnfinished) {
@@ -337,8 +336,8 @@ function startTaskTimer(task) {
 
   let countdown = setInterval(decrementTimer, 1000)
 
-  taskNode.addEventListener('holdUp', (e) => {
-    timer = timer + 1000
+  task.addEventListener('holdUp', (e) => {
+    timer = timer + 2400
   });
   // countdown()
 
