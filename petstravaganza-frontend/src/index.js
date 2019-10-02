@@ -10,7 +10,19 @@ HOME_SCREEN.innerHTML = `
 <div class="wrapperz">
 <header class="header"><h7>WELCOME TO PETE & PEYTON'S<br>PETSTRAVAGANZA</h7></header>
 <article class="main" id="start-button-row">
-<br><h6>HOW TO PLAY</h6><h3>Congratulations! You are now the proud owner of your very own pet daycare business!</h3><p><p class='how-to'>Your workday begins at 8:00AM.</p><p class='how-to'>Every day, a batch of 8 new pets will arrive to be taken care of.</p><p class='how-to'>You must monitor your task list and press the correct button to satisfy each pet's needs.</p><p class='how-to'>The pets could be hungry, thirsty, need to use the bathroom or want some exercise.</p><p class='how-to'>Every completed correct task earns you a point.</p><p class='how-to'>Every expired task or incorrect button press deducts two points.</p><p class='how-to'>These pets are loved by their owners, so it is your duty to take perfect care of these lil chonks!</p><p class='how-to'>The pets will be picked up at the end of the day (6:00PM).</p><p class='how-to'>Have fun and good luck!</p><br>
+<h6>HOW TO PLAY</h6>
+<h3>Congratulations! You are now the proud owner of your very own pet daycare business!</h3>
+<ul class='instructions'>
+  <li class='how-to'>Your workday begins at 8:00AM.</li>
+  <li class='how-to'>Every day, a batch of 8 new pets will arrive to be taken care of.</li>
+  <li class='how-to'>You must monitor your task list and press the correct button to satisfy each pet's needs.</li>
+  <li class='how-to'>The pets could be hungry, thirsty, need to use the bathroom or want some exercise.</li>
+  <li class='how-to'>Every completed correct task earns you a point.</li>
+  <li class='how-to'>Every expired task or incorrect button press deducts two points.</li>
+  <li class='how-to'>These pets are loved by their owners, so it is your duty to take perfect care of these lil chonks!</li>
+  <li class='how-to'>The pets will be picked up at the end of the day (6:00PM).</li>
+  <li class='how-to'>Have fun and good luck!</li>
+</ul>
 
 <h6>CHOOSE YOUR DIFFICULTY</h6><br>
 <a class='start-game' id='butngreen'>EASY</a>
@@ -22,7 +34,7 @@ HOME_SCREEN.innerHTML = `
 
 </article>
 <aside class="aside aside-1"><br><br><br><br><img src="assets/beluga.jpg" class="animal-image"><p>"Please take good care of me!"<br>–- Peyton the Beluga</p></aside>
-<aside class="aside aside-2"><br><br><br><br><img src="assets/corgi.jpg" class="animal-image"><p>"I'm the bestest boy, I promise!"<br>–- Pete the Corgi</p></aside>
+<aside class="aside aside-2"><br><br><br><br><img src="assets/corgi.jpg" class="animal-image"><p>"I don't want to die from your negligence!"<br>–- Pete the Corgi</p></aside>
 <footer class="footer">
 <p>Pete & Peyton's PETSTRAVAGANZA<br>by <a href="https://github.com/petehanner">Pete Hanner</a> & <a href="https://github.com/p6doyle">Peyton Doyle</a>
 </footer>

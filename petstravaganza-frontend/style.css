@@ -8,8 +8,17 @@ h1, h2, h3, h4, p, li {
   color: #4A5AA8;
 }
 
+.instructions {
+  align-items: center;
+  float: none;
+  width: 70%;
+  margin: 0 auto;
+  padding-bottom: 15px;
+}
+
 .how-to {
-  padding-bottom: 5px;
+  padding-bottom: 10px;
+  text-align: left;
 }
 
 p {
@@ -29,6 +38,8 @@ a {
 .task-list {
   color: #4A5AA8;
 }
+
+
 
 h7 {
   font-family: 'Knewave', cursive;
