@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function(e) {
   startButtons.addEventListener('click', function(e) {
     let difficulty = e.target.id;
     if (difficulty === 'butngreen') {
-      taskAppearanceRate = 2500
+      taskAppearanceRate = 2200
       taskExpiration = 12000
       localStorage.setItem("difficulty", 'easy')
     } else if (difficulty === 'butnyellow') {
@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', function(e) {
       taskExpiration = 10000
       localStorage.setItem("difficulty", 'medium')
     } else if (difficulty === 'butnred'){
-      taskAppearanceRate = 2000
+      taskAppearanceRate = 1900
       taskExpiration = 9000
       localStorage.setItem("difficulty", 'hard')
     }
