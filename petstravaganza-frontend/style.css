@@ -46,6 +46,11 @@ h6 {
   color: #4A5AA8;
 }
 
+input[type="text"] {
+  width: 300px;
+  height: 50px;
+}
+
 .sidebar {
 	grid-row: auto / span 3 !important;
 	float: left;
@@ -261,7 +266,9 @@ body {
   text-decoration: none;
 }
 
-#leaderboard {
+#leaderboard, #restart {
+  font-weight: bold;
+  border: none;
   background: #4A5AA8;
   background-image: -webkit-linear-gradient(top, #4A5AA8, #5A69AF);
   background-image: -moz-linear-gradient(top, #4A5AA8, #5A69AF);
@@ -278,7 +285,8 @@ body {
   text-decoration: none;
 }
 
-#leaderboard:hover {
+#leaderboard:hover, #restart:hover {
+  font-weight: bold;
   background: #5A69AF;
   background-image: -webkit-linear-gradient(top, #5A69AF, #7B87BF);
   background-image: -moz-linear-gradient(top, #5A69AF, #7B87BF);
