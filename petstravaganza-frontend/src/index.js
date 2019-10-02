@@ -10,7 +10,7 @@ HOME_SCREEN.innerHTML = `
 <div class="wrapperz">
 <header class="header"><h7>WELCOME TO PETE & PEYTON'S<br>PETSTRAVAGANZA</h7></header>
 <article class="main" id="start-button-row">
-<br><h6>HOW TO PLAY</h6><h3>Congratulations! You are now the proud owner of your very own pet daycare business!</h3><p><l><li>Your workday begins at 8:00AM.</li><li>Every day, a new batch of 8 pets will arrive to be taken care of.</li><li>It is your responsibility to monitor your task list and press the correct button to satisfy each pet's needs.</li><li>The pets could be hungry, thirsty, need to use the bathroom or want some exercise.</li><li>Every completed correct task earns you a point.</li><li>Every expired task or incorrect button press loses you two points.</li><li>These pets are loved by their owners, so it is your duty to take perfect care of these lil chonks!</li><li>The pets will be picked up at the end of the day (6:00PM).</li><li>Have fun and good luck!</li></l></p><br>
+<br><h6>HOW TO PLAY</h6><h3>Congratulations! You are now the proud owner of your very own pet daycare business!</h3><p><p class='how-to'>Your workday begins at 8:00AM.</p><p class='how-to'>Every day, a batch of 8 new pets will arrive to be taken care of.</p><p class='how-to'>You must monitor your task list and press the correct button to satisfy each pet's needs.</p><p class='how-to'>The pets could be hungry, thirsty, need to use the bathroom or want some exercise.</p><p class='how-to'>Every completed correct task earns you a point.</p><p class='how-to'>Every expired task or incorrect button press deducts two points.</p><p class='how-to'>These pets are loved by their owners, so it is your duty to take perfect care of these lil chonks!</p><p class='how-to'>The pets will be picked up at the end of the day (6:00PM).</p><p class='how-to'>Have fun and good luck!</p><br>
 
 <h6>CHOOSE YOUR DIFFICULTY</h6><br>
 <a class='start-game' id='butngreen'>EASY</a>
@@ -267,7 +267,7 @@ function populateTasks() {
   // check if there are tasks available in the queue
   if (task_queue.length > 0) {
     // if so, check if there are already 10 tasks in the sidebar
-    if (taskList.childElementCount < 10) {
+    if (taskList.childElementCount < 5) {
       let taskObject = task_queue.shift()
       let task = document.createElement('div');
       task.className = 'task'
@@ -338,7 +338,7 @@ function startTaskTimer(task) {
   let countdown = setInterval(decrementTimer, 1000)
 
   taskNode.addEventListener('holdUp', (e) => {
-    timer = timer + 10000
+    timer = timer + 1000
   });
   // countdown()
 
