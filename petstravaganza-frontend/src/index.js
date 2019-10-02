@@ -53,6 +53,22 @@ GAME_OVER_SCREEN.innerHTML = `
 </div>
 `
 
+const LEADERBOARD_SCREEN = document.createElement('div');
+LEADERBOARD_SCREEN.id = 'leaderboard-screen'
+LEADERBOARD_SCREEN.innerHTML = `
+  <h2>HIGH SCORES:</h2>
+  <p class='hi-score'><strong>1st: </strong><span id='hiscore1'></span></p>
+  <p class='hi-score'><strong>2nd: </strong><span id='hiscore2'></span></p>
+  <p class='hi-score'><strong>3rd: </strong><span id='hiscore3'></span></p>
+  <p class='hi-score'><strong>4th: </strong><span id='hiscore4'></span></p>
+  <p class='hi-score'><strong>5th: </strong><span id='hiscore5'></span></p>
+  <p class='hi-score'><strong>6th: </strong><span id='hiscore6'></span></p>
+  <p class='hi-score'><strong>7th: </strong><span id='hiscore7'></span></p>
+  <p class='hi-score'><strong>8th: </strong><span id='hiscore8'></span></p>
+  <p class='hi-score'><strong>9th: </strong><span id='hiscore9'></span></p>
+  <p class='hi-score'><strong>10th: </strong><span id='hiscore10'></span></p>
+`
+
 // Run as soon as the page loads
 
 function clearDOM() {
@@ -343,6 +359,7 @@ function createHighScoreEntry() {
   <h5>Congrats, you got a high score!</h5>
   <label for="username">Please enter a name for the leaderboard: </label>
   <input type="text" name="username" value="">
+  <input type="submit" value="YOU DID IT GOOD JOB">
   `
   lbEntryFormDiv.appendChild(lbEntryForm)
   lbEntryForm.addEventListener('submit', function(e) {
@@ -360,14 +377,30 @@ function patchLeaderboard(userName) {
     headers: {
       "Content-Type": "application/json",
       "Accept": "application/json"
-    }
+    },
     body: JSON.stringify(bodyData)
-  }
+  };
   fetch(LEADERBOARD_UPDATE, configObj)
-  // .then(rsp =>)
+  .then(rsp => rsp.json())
+  .then(topScores => {
+    clearDOM()
+    showLeaderboard(topScores)
+  })
 }
 
+function showLeaderboard(topScores) {
+  document.body.appendChild(LEADERBOARD_SCREEN)
+  let maxIndex = topScores.length - 1
 
+  for (let i = 0; i < topScores.length; i++) {
+    let scoreEntry = document.getElementById(`hiscore${i+1}`)
+    scoreEntry.innerText = `${topScores[maxIndex].username}: ${topScores[maxIndex].score}`
+    maxIndex--
+  }
+
+  // const hiscore1 = document.getElementById('hiscore1')
+  // hiscore1.innerText = `${topTen}`
+}
 
 
 

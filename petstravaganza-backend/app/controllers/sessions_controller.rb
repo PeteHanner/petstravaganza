@@ -21,7 +21,19 @@ class SessionsController < ApplicationController
 
   def new_high_score
     # find the lowest high score
+    top_ten = Session.all
+    top_ten = top_ten.sort_by { |session| session[:score] }
     # drop that row from the table
+    if top_ten.length >= 10
+      top_ten[0].destroy
+    end
     # create a new entry with provided params
+    Session.create(
+      username: params[:username],
+      score: params[:score]
+    )
+    top_ten = Session.all
+    top_ten = top_ten.sort_by { |session| session[:score] }
+    render json:top_ten
   end
 end
