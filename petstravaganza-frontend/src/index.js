@@ -88,16 +88,16 @@ document.addEventListener('DOMContentLoaded', function(e) {
   startButtons.addEventListener('click', function(e) {
     let difficulty = e.target.id;
     if (difficulty === 'butngreen') {
-      taskAppearanceRate = 2200
-      taskExpiration = 12000
+      taskAppearanceRate = 1900
+      taskExpiration = 11000
       localStorage.setItem("difficulty", 'easy')
     } else if (difficulty === 'butnyellow') {
-      taskAppearanceRate = 2000
-      taskExpiration = 10000
+      taskAppearanceRate = 1600
+      taskExpiration = 9500
       localStorage.setItem("difficulty", 'medium')
     } else if (difficulty === 'butnred'){
-      taskAppearanceRate = 1900
-      taskExpiration = 9000
+      taskAppearanceRate = 1200
+      taskExpiration = 8500
       localStorage.setItem("difficulty", 'hard')
     }
     clearDOM()
