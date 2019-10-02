@@ -9,18 +9,24 @@ HOME_SCREEN.id = 'home-screen'
 HOME_SCREEN.innerHTML = `
 <div class="wrapperz">
 <header class="header"><h7>WELCOME TO PETE & PEYTON'S<br>PETSTRAVAGANZA</h7></header>
-<article class="main">
-<h6>HOW TO PLAY</h6><br>
-</article>
-<aside class="aside aside-1">Aside 1</aside>
-<aside class="aside aside-2">Aside 2</aside>
-<footer class="footer" id="start-button-row">
+<article class="main" id="start-button-row">
+<br><h6>HOW TO PLAY</h6><h3>Congratulations! You are now the proud owner of your very own pet daycare business!</h3><p><l><li>Your workday begins at 8:00AM.</li><li>Every day, a new batch of 8 pets will arrive to be taken care of.</li><li>It is your responsibility to monitor your task list and press the correct button to satisfy each pet's needs.</li><li>The pets could be hungry, thirsty, need to use the bathroom or want some exercise.</li><li>Every completed correct task earns you a point.</li><li>Every expired task or incorrect button press loses you two points.</li><li>These pets are loved by their owners, so it is your duty to take perfect care of these lil chonks!</li><li>The pets will be picked up at the end of the day (6:00PM).</li><li>Have fun and good luck!</li></l></p><br>
+
+<h6>CHOOSE YOUR DIFFICULTY</h6><br>
 <a class='start-game' id='butngreen'>EASY</a>
 <a class='start-game' id='butnyellow'>MEDIUM</a>
 <a class='start-game' id='butnred'>HARD</a>
+<br><br><br>
+<a class='leaderboard' id='leaderboard'><strong>LEADERBOARD</strong></a>
+
+
+</article>
+<aside class="aside aside-1"><br><br><br><br><img src="assets/beluga.jpg" class="animal-image"><p>"Please take good care of me!"<br>–- Peyton the Beluga</p></aside>
+<aside class="aside aside-2"><br><br><br><br><img src="assets/corgi.jpg" class="animal-image"><p>"I'm the bestest boy, I promise!"<br>–- Pete the Corgi</p></aside>
+<footer class="footer">
+<p>Pete & Peyton's PETSTRAVAGANZA<br>by <a href="https://github.com/petehanner">Pete Hanner</a> & <a href="https://github.com/p6doyle">Peyton Doyle</a>
 </footer>
 </div>
-<br><br>
 `
 
 const GAME_SCREEN = document.createElement('div');
@@ -29,7 +35,7 @@ GAME_SCREEN.innerHTML = `
 <div class="wrapper">
 <div id="sidebar" class="box sidebar">
 <div id="header"></div>
-<div><h1 id="clock"></h1></div>
+<div><h6>PETE & PEYTON'S PETSTRAVAGANZA</h6><h1 id="clock"></h1></div>
 <div><h2>Score: <span id="score">0</span></h2></div>
 <div id="task-list"></div>
 </div>
@@ -85,25 +91,44 @@ let taskAppearanceRate;
 document.addEventListener('DOMContentLoaded', function(e) {
   document.body.appendChild(HOME_SCREEN)
   const startButtons = document.getElementById('start-button-row')
+  const leaderboardButton = document.getElementById('leaderboard')
+  var timesClicked = 0;
+  leaderboardButton.addEventListener('click', function(e) {
+    timesClicked++;
+    if (timesClicked%2==0){
+      document.getElementById('leaderboard-screen').remove()
+    } else {
+      pullLeaderboard()}
+  });
   startButtons.addEventListener('click', function(e) {
     let difficulty = e.target.id;
     if (difficulty === 'butngreen') {
       taskAppearanceRate = 1900
       taskExpiration = 11000
       localStorage.setItem("difficulty", 'easy')
+      clearDOM()
+      startGame()
     } else if (difficulty === 'butnyellow') {
       taskAppearanceRate = 1600
       taskExpiration = 9500
       localStorage.setItem("difficulty", 'medium')
+      clearDOM()
+      startGame()
     } else if (difficulty === 'butnred'){
       taskAppearanceRate = 1200
       taskExpiration = 8500
       localStorage.setItem("difficulty", 'hard')
-    }
-    clearDOM()
-    startGame()
+      clearDOM()
+      startGame()
+    } else ( {})
   });
 });
+
+document.addEventListener('DOMContentLoaded', function(e) {
+
+
+});
+
 
 function startGame() {
   document.body.appendChild(GAME_SCREEN)
@@ -118,14 +143,14 @@ function startGame() {
 }
 
 // Add header
-function createHeader() {
-  const header = document.getElementById('header')
-  header.innerHTML = `<img src="assets/coming-soon.png" width=50%>`
-}
+// function createHeader() {
+//   const header = document.getElementById('header')
+//   header.innerHTML = `<img src="assets/coming-soon.png" width=50%>`
+// }
 
 // Keep a running timer at the top of the sidebar
 function startClock() {
-  createHeader()
+  // createHeader()
   const clock = document.getElementById('clock')
   let time = new Date('January 1, 1980 08:00:00')
   clock.innerText = time.toLocaleTimeString([], {
@@ -389,18 +414,28 @@ function patchLeaderboard(userName) {
   .then(rsp => rsp.json())
   .then(topScores => {
     clearDOM()
-    showLeaderboard(topScores)
+    showLeaderboard(topScores, document.body)
   })
 }
 
-function showLeaderboard(topScores) {
-  document.body.appendChild(LEADERBOARD_SCREEN)
+function showLeaderboard(topScores, targetNode) {
+  targetNode.appendChild(LEADERBOARD_SCREEN)
   let maxIndex = topScores.length - 1
   for (let i = 0; i < topScores.length; i++) {
     let scoreEntry = document.getElementById(`hiscore${i+1}`)
     scoreEntry.innerText = `${topScores[maxIndex].username} : ${topScores[maxIndex].score} (${topScores[maxIndex].difficulty})`
     maxIndex--
   }
+}
+
+// Pulls leaderboard for homescreen
+function pullLeaderboard() {
+  let article = document.querySelector("article")
+  fetch(LEADERBOARD_URL)
+  .then(rsp => rsp.json())
+  .then(leaderboard => {
+    showLeaderboard(leaderboard, article)
+  })
 }
 
 
