@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get '/sessions/leaderboard', to: 'sessions#leaderboard'
+  post '/sessions/new_high_score', to: 'sessions#new_high_score'
   resources :sessions
   resources :tasks
   resources :animals

@@ -1,7 +1,6 @@
 class SessionsController < ApplicationController
   def index
     session_animals = Animal.generate_animal_array
-    # task_list = Task.task_list(session_animals)
     render json:session_animals, only: [:name, :species, :image, :id]
   end
 
@@ -12,9 +11,17 @@ class SessionsController < ApplicationController
     new_tasks = Task.task_list(current_animals)
     print new_tasks
     render json:new_tasks
-    # byebug
-    # 0
-    # create 15 tasks associated with those animals
-    # return as JSON object
+  end
+
+  def leaderboard
+    top_ten = Session.all
+    top_ten = top_ten.sort_by { |session| session[:score] }
+    render json:top_ten
+  end
+
+  def new_high_score
+    # find the lowest high score
+    # drop that row from the table
+    # create a new entry with provided params
   end
 end

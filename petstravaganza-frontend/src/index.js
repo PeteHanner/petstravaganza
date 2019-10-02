@@ -1,42 +1,44 @@
 // Variables
 const SESSION_ANIMALS = 'http://localhost:3000/sessions'
 const SESSION_TASKS = 'http://localhost:3000/sessions/update'
+const LEADERBOARD_URL = 'http://localhost:3000/sessions/leaderboard'
+const LEADERBOARD_UPDATE = 'http://localhost:3000/sessions/new_high_score'
 
 const HOME_SCREEN = document.createElement('div');
 HOME_SCREEN.id = 'home-screen'
 HOME_SCREEN.innerHTML = `
-  <div class="wrapperz">
-    <header class="header"><h7>WELCOME TO PETE & PEYTON'S<br>PETSTRAVAGANZA</h7></header>
-    <article class="main">
-      <h6>HOW TO PLAY</h6><br>
-    </article>
-    <aside class="aside aside-1">Aside 1</aside>
-    <aside class="aside aside-2">Aside 2</aside>
-    <footer class="footer">
-      <a href="#nada" class='butngreen' id='start-game'><span>EASY</span></a>
-      <a href="#nada" class='butnyellow' id='start-game'><span>MEDIUM</span></a>
-      <a href="#nada" class='butnred' id='start-game'><span>HARD</span></a>
-    </footer>
-  </div>
-  <br><br>
+<div class="wrapperz">
+<header class="header"><h7>WELCOME TO PETE & PEYTON'S<br>PETSTRAVAGANZA</h7></header>
+<article class="main">
+<h6>HOW TO PLAY</h6><br>
+</article>
+<aside class="aside aside-1">Aside 1</aside>
+<aside class="aside aside-2">Aside 2</aside>
+<footer class="footer" id="start-button-row">
+<a class='start-game' id='butngreen'>EASY</a>
+<a class='start-game' id='butnyellow'>MEDIUM</a>
+<a class='start-game' id='butnred'>HARD</a>
+</footer>
+</div>
+<br><br>
 `
 
 const GAME_SCREEN = document.createElement('div');
 GAME_SCREEN.id = 'animal-grid'
 GAME_SCREEN.innerHTML = `
 <div class="wrapper">
-  <div id="sidebar" class="box sidebar">
-    <div id="header"></div>
-    <div><h1 id="clock"></h1></div>
-    <div><h2>Score: <span id="score">0</span></h2></div>
-    <div id="task-list"></div>
-  </div>
-  <div class="box" id="1"></div>
-  <div class="box" id="2"></div>
-  <div class="box" id="3"></div>
-  <div class="box" id="4"></div>
-  <div class="box" id="5"></div>
-  <div class="box" id="6"></div>
+<div id="sidebar" class="box sidebar">
+<div id="header"></div>
+<div><h1 id="clock"></h1></div>
+<div><h2>Score: <span id="score">0</span></h2></div>
+<div id="task-list"></div>
+</div>
+<div class="box" id="1"></div>
+<div class="box" id="2"></div>
+<div class="box" id="3"></div>
+<div class="box" id="4"></div>
+<div class="box" id="5"></div>
+<div class="box" id="6"></div>
 </div>
 `
 let task_queue = []
@@ -45,8 +47,9 @@ const GAME_OVER_SCREEN = document.createElement('div');
 GAME_OVER_SCREEN.id = 'game-over-screen'
 GAME_OVER_SCREEN.innerHTML = `
 <div>
-  <h1>GAME OVER</h1>
-  <h3>Your final score was <span id='final-score'></span></h3>
+<h1>GAME OVER</h1>
+<h3>Your final score was <span id='final-score'></span></h3>
+<div id='leaderboard-entry-form'></div>
 </div>
 `
 
@@ -60,31 +63,42 @@ function clearDOM() {
   }
 }
 
+let taskExpiration;
+let taskAppearanceRate;
+
 document.addEventListener('DOMContentLoaded', function(e) {
   document.body.appendChild(HOME_SCREEN)
-  const startButton = document.getElementById('start-game')
-  startButton.addEventListener('click', function(e) {
+  const startButtons = document.getElementById('start-button-row')
+  startButtons.addEventListener('click', function(e) {
+    let difficulty = e.target.id;
+    // let taskAppearanceRate;
+    // let taskExpiration;
+    if (difficulty === 'butngreen') {
+      taskAppearanceRate = 2500
+      taskExpiration = 12000
+    } else if (difficulty === 'butnyellow') {
+      taskAppearanceRate = 2000
+      taskExpiration = 10000
+    } else if (difficulty === 'butnred'){
+      taskAppearanceRate = 2000
+      taskExpiration = 9000
+    }
     clearDOM()
-    document.body.appendChild(GAME_SCREEN)
-    fetchAnimals();
-    startClock();
-    populateTasks();
-    let taskPull = setInterval(pullTasks, 10000)
-    let taskPush = setInterval(populateTasks, 2000)
-    setTimeout( ()=> {
-      const gameOver = new CustomEvent('gameOver')
-      document.dispatchEvent(gameOver)
-      console.log('GAME OVER!!!!')
-      clearInterval(taskPull)
-      clearInterval(taskPush)
-      setFinalScore()
-      clearDOM()
-      document.body.appendChild(GAME_OVER_SCREEN)
-      const finalScoreSpan = document.getElementById('final-score')
-      finalScoreSpan.innerText = localStorage['finalScore']
-    }, 60000)
+    startGame()
   });
 });
+
+function startGame() {
+  document.body.appendChild(GAME_SCREEN)
+  fetchAnimals();
+  startClock();
+  populateTasks();
+  let taskPull = setInterval(pullTasks, 10000)
+  let taskPush = setInterval(populateTasks, taskAppearanceRate)
+  setTimeout( ()=> {
+    endGame(taskPull, taskPush)
+  }, 60000)
+}
 
 // Add header
 function createHeader() {
@@ -204,7 +218,6 @@ function populateTasks() {
   if (task_queue.length > 0) {
     // if so, check if there are already 10 tasks in the sidebar
     if (taskList.childElementCount < 10) {
-
       let taskObject = task_queue.shift()
       let task = document.createElement('div');
       task.className = 'task'
@@ -255,7 +268,7 @@ function incrementScore() {
 // If user does not complete task in time, delete it and deduct score
 function startTaskTimer(task) {
   // find timer
-  let timer = task.dataset.duration
+  let timer = taskExpiration
   // start timer
   let decrementTimer = () => {
     timer = timer - 1000
@@ -297,6 +310,62 @@ function flashScoreRed() {
   }, 500)
 }
 
+function endGame(taskPull, taskPush) {
+  const gameOver = new CustomEvent('gameOver')
+  document.dispatchEvent(gameOver)
+  clearInterval(taskPull)
+  clearInterval(taskPush)
+  setFinalScore()
+  clearDOM()
+  document.body.appendChild(GAME_OVER_SCREEN)
+  const finalScoreSpan = document.getElementById('final-score')
+  finalScoreSpan.innerText = localStorage['finalScore']
+  checkForHighScore()
+}
+
+function checkForHighScore() {
+  fetch(LEADERBOARD_URL)
+  .then(rsp => rsp.json())
+  .then(leaderboard => {
+    let userScore = Number(localStorage['finalScore']);
+    let highScoreThreshold = Number(leaderboard[0].score)
+    if (leaderboard.length < 10 || userScore > highScoreThreshold) {
+      createHighScoreEntry()
+    }
+  })
+}
+
+function createHighScoreEntry() {
+  const lbEntryFormDiv = document.getElementById('leaderboard-entry-form')
+  const lbEntryForm = document.createElement('form');
+  lbEntryForm.id = 'create-leaderboard-entry'
+  lbEntryForm.innerHTML = `
+  <h5>Congrats, you got a high score!</h5>
+  <label for="username">Please enter a name for the leaderboard: </label>
+  <input type="text" name="username" value="">
+  `
+  lbEntryFormDiv.appendChild(lbEntryForm)
+  lbEntryForm.addEventListener('submit', function(e) {
+    e.preventDefault()
+    let userName = e.target.childNodes[5].value
+    patchLeaderboard(userName)
+  });
+}
+
+function patchLeaderboard(userName) {
+  let userScore = Number(localStorage['finalScore']);
+  let bodyData = {username: userName, score: userScore}
+  let configObj = {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json",
+      "Accept": "application/json"
+    }
+    body: JSON.stringify(bodyData)
+  }
+  fetch(LEADERBOARD_UPDATE, configObj)
+  // .then(rsp =>)
+}
 
 
 
