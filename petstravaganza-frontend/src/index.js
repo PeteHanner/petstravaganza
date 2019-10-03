@@ -41,8 +41,6 @@ HOME_SCREEN.innerHTML = `
 </div>
 `
 
-
-
 const GAME_SCREEN = document.createElement('div');
 GAME_SCREEN.id = 'animal-grid'
 GAME_SCREEN.innerHTML = `
