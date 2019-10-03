@@ -14,7 +14,7 @@ HOME_SCREEN.innerHTML = `
 <h3>Congratulations! You are now the proud owner of your very own pet daycare business!</h3>
 <ul class='instructions'>
 <li class='how-to'>Your workday begins at 8:00AM.</li>
-<li class='how-to'>Every day, a batch of 8 new pets will arrive to be taken care of.</li>
+<li class='how-to'>Every day, a batch of 6 new pets will arrive to be taken care of.</li>
 <li class='how-to'>You must monitor your task list and press the correct button to satisfy each pet's needs.</li>
 <li class='how-to'>The pets could be hungry, thirsty, need to use the bathroom or want some exercise.</li>
 <li class='how-to'>Every completed correct task earns you a point.</li>
@@ -82,8 +82,8 @@ GAME_OVER_SCREEN.innerHTML = `
 <header class="header"><h7>GAME OVER</h7></header>
 <article class="main" id="start-button-row">
 <br><h6>YOUR FINAL SCORE WAS <span id='final-score'></span></h6>
-
-<div id='leaderboard-entry-form'></div>
+<div id='leaderboard-entry-form'></div><br>
+<a class='restart' id='restartend'><strong>RESTART GAME</strong></a>
 </article>
 <aside class="aside aside-1"><br><br><br><br><img src="assets/beluga.jpg" class="animal-image"><p>"I am so happy, what a great day! Thanks!"<br>–- Peyton the Beluga</p></aside>
 <aside class="aside aside-2"><br><br><br><br><img src="assets/corgi.jpg" class="animal-image"><p>"At every second my survival was in doubt!"<br>–- Pete the Corgi</p></aside>
@@ -96,17 +96,17 @@ GAME_OVER_SCREEN.innerHTML = `
 const LEADERBOARD_SCREEN = document.createElement('div');
 LEADERBOARD_SCREEN.id = 'leaderboard-screen'
 LEADERBOARD_SCREEN.innerHTML = `
-<h2>HIGH SCORES:</h2>
-<p class='hi-score'><strong>1st | </strong><span id='hiscore1'></span></p>
-<p class='hi-score'><strong>2nd | </strong><span id='hiscore2'></span></p>
-<p class='hi-score'><strong>3rd | </strong><span id='hiscore3'></span></p>
-<p class='hi-score'><strong>4th | </strong><span id='hiscore4'></span></p>
-<p class='hi-score'><strong>5th | </strong><span id='hiscore5'></span></p>
-<p class='hi-score'><strong>6th | </strong><span id='hiscore6'></span></p>
-<p class='hi-score'><strong>7th | </strong><span id='hiscore7'></span></p>
-<p class='hi-score'><strong>8th | </strong><span id='hiscore8'></span></p>
-<p class='hi-score'><strong>9th | </strong><span id='hiscore9'></span></p>
-<p class='hi-score'><strong>10th | </strong><span id='hiscore10'></span></p>
+<br><h6>HIGH SCORES:</h6>
+<p class='hi-score'><strong>1st: </strong><span id='hiscore1'></span></p>
+<p class='hi-score'><strong>2nd: </strong><span id='hiscore2'></span></p>
+<p class='hi-score'><strong>3rd: </strong><span id='hiscore3'></span></p>
+<p class='hi-score'><strong>4th: </strong><span id='hiscore4'></span></p>
+<p class='hi-score'><strong>5th: </strong><span id='hiscore5'></span></p>
+<p class='hi-score'><strong>6th: </strong><span id='hiscore6'></span></p>
+<p class='hi-score'><strong>7th: </strong><span id='hiscore7'></span></p>
+<p class='hi-score'><strong>8th: </strong><span id='hiscore8'></span></p>
+<p class='hi-score'><strong>9th: </strong><span id='hiscore9'></span></p>
+<p class='hi-score'><strong>10th: </strong><span id='hiscore10'></span></p>
 `
 
 // Run as soon as the page loads
@@ -414,6 +414,10 @@ document.addEventListener('DOMContentLoaded', function(e) {
     const finalScoreSpan = document.getElementById('final-score')
     finalScoreSpan.innerText = localStorage['finalScore']
     checkForHighScore()
+    const restartButton = document.getElementById('restartend')
+    restartButton.addEventListener('click', () => {
+      location.reload();
+    })
   }
 
   function checkForHighScore() {
@@ -476,7 +480,7 @@ document.addEventListener('DOMContentLoaded', function(e) {
     let maxIndex = topScores.length - 1
     for (let i = 0; i < topScores.length; i++) {
       let scoreEntry = document.getElementById(`hiscore${i+1}`)
-      scoreEntry.innerText = `${topScores[maxIndex].username} : ${topScores[maxIndex].score} (${topScores[maxIndex].difficulty})`
+      scoreEntry.innerText = `${topScores[maxIndex].username.toUpperCase()} | ${topScores[maxIndex].score} Points on ${topScores[maxIndex].difficulty.toUpperCase()}`
       maxIndex--
     }
   }
