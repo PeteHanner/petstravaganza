@@ -34,7 +34,7 @@ class Animal < ApplicationRecord
     'shiba' => 'assets/shiba.jpg',
     'schnauzer' => 'assets/schnauzer.jpg',
     'bernese' => 'assets/bernese.jpg',
-    'aussie' => 'assets/aussie.jpg',
+    'aussie' => 'assets/aussie.png',
   }
 
   def self.generate
