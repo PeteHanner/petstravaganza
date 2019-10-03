@@ -30,7 +30,11 @@ class Animal < ApplicationRecord
     'gecko' => 'assets/gecko.jpg',
     'tabby cat' => 'assets/tabby.jpg',
     'siamese cat' => 'assets/siamese.jpg',
+    'black lab' => 'assets/blacklab.jpg',
     'shiba' => 'assets/shiba.jpg',
+    'schnauzer' => 'assets/schnauzer.jpg',
+    'bernese' => 'assets/bernese.jpg',
+    'aussie' => 'assets/aussie.jpg',
   }
 
   def self.generate
