@@ -1,24 +1,9 @@
-# README
+# Petstravaganza
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Flatiron Module 4 project by Peyton Doyle and Pete Hanner
 
-Things you may want to cover:
+Paired project focusing on JavaScript basics. In this game,  
 
-* Ruby version
 
-* System dependencies
+## Demo
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
