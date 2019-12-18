@@ -184,7 +184,7 @@ document.addEventListener('DOMContentLoaded', function(e) {
   }
 
   // Add header
-  // function createHeader() {
+  // function createHeader() 
   //   const header = document.getElementById('header')
   //   header.innerHTML = `<img src="assets/coming-soon.png" width=50%>`
   // }
