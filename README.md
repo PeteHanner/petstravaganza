@@ -8,3 +8,16 @@ We wrote our own random generation to populate the task list and pull animal spe
 
 ## Demo
 
+On the welcome screen, users can take a look at the game rules, see a leaderboard of past games, and select their difficulty.
+
+(GIF HERE)
+
+Once they select a difficulty level, the game begins. After a slight delay to check out their animals, tasks begin to populate, which can be cleared by clicking the appropriate button on the appropriate animal.
+
+(GIF HERE)
+
+If tasks expire or incorrect tasks are performed, players lose points. If things are really out of control, you can click 'Restart Game' to go back to the home screen.
+
+(GIF HERE)
+
+Good enough to get a high score? Enter your name on the leaderboard for eternal glory (or at least glory until someone else comes along to beat your score).
